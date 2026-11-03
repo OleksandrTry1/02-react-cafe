@@ -22,6 +22,8 @@ const App = () => {
   };
 
   const totalVotes = votes.good + votes.neutral + votes.bad;
+  const positiveRate =
+    totalVotes === 0 ? 0 : Math.round((votes.good / totalVotes) * 100);
 
   return (
     <div className={css.app}>
@@ -31,7 +33,17 @@ const App = () => {
         onReset={resetVotes}
         canReset={totalVotes > 0}
       />
-      {totalVotes > 0 ? <VoteStats votes={votes} /> : <Notification />}
+      {totalVotes > 0 ? (
+        <VoteStats
+          good={votes.good}
+          neutral={votes.neutral}
+          bad={votes.bad}
+          totalVotes={totalVotes}
+          positiveRate={positiveRate}
+        />
+      ) : (
+        <Notification />
+      )}
     </div>
   );
 };
